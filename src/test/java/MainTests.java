@@ -1,5 +1,5 @@
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.aston.mineev_ia.task1.car_rent.classes.Car;
 import ru.aston.mineev_ia.task1.car_rent.classes.Order;
@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainTests {
-    static List<Order> orderList = new ArrayList<>();
+     List<Order> orderList = new ArrayList<>();
 
-    @BeforeAll
-    static void start() throws Exception {
+    @BeforeEach
+     void start() throws Exception {
         User user1 = new User(20, "Минеев", "Иван");
         User user2 = new User(19, "Шматков", "Артем");
         User user3 = new User(19, "Семенов", "Александр");
@@ -39,7 +39,7 @@ public class MainTests {
     }
 
     @Test
-    void testTypeCar() throws Exception {
+    void testTypeCar() {
         Assertions.assertThrows(Exception.class, () -> new Car("BMW", "M8 F90", 617, 3.614, 2700, CarType.PASSENGER_CAR));
     }
 
