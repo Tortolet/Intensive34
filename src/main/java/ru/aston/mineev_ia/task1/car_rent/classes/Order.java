@@ -13,7 +13,7 @@ public abstract class Order implements Discount {
     private User user;
     private Car car;
 
-    public Order(int id, BigDecimal coefficient, BigDecimal costPerMinute, User user, Car car) {
+    protected Order(int id, BigDecimal coefficient, BigDecimal costPerMinute, User user, Car car) {
         this.id = id;
         this.coefficient = coefficient;
         this.costPerMinute = costPerMinute;
@@ -63,12 +63,7 @@ public abstract class Order implements Discount {
         this.car = car;
     }
 
-    public static Comparator<Order> surNameComparator = new Comparator<Order>() {
-        @Override
-        public int compare(Order o1, Order o2) {
-            return o1.getUser().getSurName().compareTo(o2.getUser().getSurName());
-        }
-    };
+    public static Comparator<Order> surNameComparator = Comparator.comparing(o -> o.getUser().getSurName());
 
     @Override
     public String toString() {
