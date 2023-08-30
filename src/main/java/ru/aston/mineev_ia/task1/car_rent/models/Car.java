@@ -1,4 +1,4 @@
-package ru.aston.mineev_ia.task1.car_rent.classes;
+package ru.aston.mineev_ia.task1.car_rent.models;
 
 import ru.aston.mineev_ia.task1.car_rent.interfaces.Rent;
 import ru.aston.mineev_ia.task1.car_rent.types.CarType;
@@ -22,11 +22,14 @@ public class Car implements Rent {
         this.carType = carType;
         this.isRented = false;
 
-        if (weight > 2500 && carType.equals(CarType.PASSENGER_CAR)) {
+        boolean notPassCar = weight > 2500 && carType.equals(CarType.PASSENGER_CAR);
+        boolean isInvalidValues = horsePower <= 0 || distance < 0 || weight <= 0;
+
+        if (notPassCar) {
             throw new RuntimeException("Легковой автомобиль не подходит по габаритам.");
         }
 
-        if (horsePower <= 0 || distance < 0 || weight <= 0){
+        if (isInvalidValues){
             throw new RuntimeException("Неверные данные");
         }
     }

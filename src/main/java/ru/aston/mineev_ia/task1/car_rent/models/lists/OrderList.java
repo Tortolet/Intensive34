@@ -1,6 +1,6 @@
-package ru.aston.mineev_ia.task1.car_rent.classes.lists;
+package ru.aston.mineev_ia.task1.car_rent.models.lists;
 
-import ru.aston.mineev_ia.task1.car_rent.classes.Order;
+import ru.aston.mineev_ia.task1.car_rent.models.Order;
 import ru.aston.mineev_ia.task1.car_rent.interfaces.OrderCalculation;
 
 import java.math.BigDecimal;

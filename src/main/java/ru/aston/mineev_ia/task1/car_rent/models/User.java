@@ -1,4 +1,4 @@
-package ru.aston.mineev_ia.task1.car_rent.classes;
+package ru.aston.mineev_ia.task1.car_rent.models;
 
 import java.util.Objects;
 

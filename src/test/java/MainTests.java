@@ -1,12 +1,12 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.aston.mineev_ia.task1.car_rent.classes.Car;
-import ru.aston.mineev_ia.task1.car_rent.classes.Order;
-import ru.aston.mineev_ia.task1.car_rent.classes.User;
-import ru.aston.mineev_ia.task1.car_rent.classes.lists.OrderList;
-import ru.aston.mineev_ia.task1.car_rent.classes.order_heirs.OrderPassengerCar;
-import ru.aston.mineev_ia.task1.car_rent.classes.order_heirs.OrderTruckCar;
+import ru.aston.mineev_ia.task1.car_rent.models.Car;
+import ru.aston.mineev_ia.task1.car_rent.models.Order;
+import ru.aston.mineev_ia.task1.car_rent.models.User;
+import ru.aston.mineev_ia.task1.car_rent.models.lists.OrderList;
+import ru.aston.mineev_ia.task1.car_rent.models.order_heirs.OrderPassengerCar;
+import ru.aston.mineev_ia.task1.car_rent.models.order_heirs.OrderTruckCar;
 import ru.aston.mineev_ia.task1.car_rent.types.CarType;
 
 import java.math.BigDecimal;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainTests {
-     List<Order> orderList = new ArrayList<>();
+    private final List<Order> orderList = new ArrayList<>();
 
     @BeforeEach
      void start() {
@@ -26,9 +26,9 @@ public class MainTests {
         Car car2 = new Car("Lexus", "RX", 280, 65.123, 1540, CarType.PASSENGER_CAR);
         Car car3 = new Car("Nissan", "Atleon", 150, 65.123, 1540, CarType.TRUCK_CAR);
 
-        orderList.add(new OrderTruckCar(1, BigDecimal.valueOf(5), BigDecimal.valueOf(5.00), user2, car3));
-        orderList.add(new OrderPassengerCar(3, BigDecimal.valueOf(5), BigDecimal.valueOf(5.00), user1, car1));
-        orderList.add(new OrderPassengerCar(2, BigDecimal.valueOf(5), BigDecimal.valueOf(5.00), user3, car2));
+        orderList.add(new OrderTruckCar(1, new BigDecimal(5), new BigDecimal("5.00"), user2, car3));
+        orderList.add(new OrderPassengerCar(3, new BigDecimal(5), new BigDecimal("5.00"), user1, car1));
+        orderList.add(new OrderPassengerCar(2, new BigDecimal(5), new BigDecimal("5.00"), user3, car2));
     }
 
     @Test
@@ -56,23 +56,23 @@ public class MainTests {
 
     @Test
     void testDiscount() {
-        Assertions.assertEquals(BigDecimal.valueOf(19000, 2), orderList.get(0).getResultAmount(40));
+        Assertions.assertEquals(new BigDecimal("190.00"), orderList.get(0).getResultAmount(40));
     }
 
     @Test
     void testWithoutDiscount() {
         Car car = new Car("BMW", "M8 F90", 617, 3.614, 1980, CarType.TRUCK_CAR);
         User user = new User(40, "Вергус", "Александр");
-        orderList.add(new OrderTruckCar(4, BigDecimal.valueOf(0), BigDecimal.valueOf(9.00), user, car));
+        orderList.add(new OrderTruckCar(4, new BigDecimal(0), new BigDecimal("9.00"), user, car));
 
-        Assertions.assertEquals(BigDecimal.valueOf(36000, 2), orderList.get(3).getResultAmount(40));
+        Assertions.assertEquals(new BigDecimal("360.00"), orderList.get(3).getResultAmount(40));
         Assertions.assertFalse(orderList.get(3).getCar().isRented());
     }
 
     @Test
     void testOrderList() {
         OrderList list = new OrderList(orderList);
-        Assertions.assertEquals(BigDecimal.valueOf(85500, 2), list.calcAmount());
+        Assertions.assertEquals(new BigDecimal("855.00"), list.calcAmount());
     }
 
     @Test
@@ -80,7 +80,7 @@ public class MainTests {
         OrderList list = new OrderList(orderList);
         String listToString = list.toString();
 
-        Assertions.assertEquals("OrderList{orderList=[Order{id=3, coefficient=5, costPerMinute=5.0, user=User{age=20, surName='Минеев', name='Иван'}, car=Car{carName='BMW', model='M8 F90', horsePower=617, isRented=true, distance=3.614, weight=2035.0, carType=PASSENGER_CAR}}, Order{id=2, coefficient=5, costPerMinute=5.0, user=User{age=19, surName='Семенов', name='Александр'}, car=Car{carName='Lexus', model='RX', horsePower=280, isRented=true, distance=65.123, weight=1540.0, carType=PASSENGER_CAR}}, Order{id=1, coefficient=5, costPerMinute=5.0, user=User{age=19, surName='Шматков', name='Артем'}, car=Car{carName='Nissan', model='Atleon', horsePower=150, isRented=true, distance=65.123, weight=1540.0, carType=TRUCK_CAR}}]}", listToString);
+        Assertions.assertEquals("OrderList{orderList=[Order{id=3, coefficient=5, costPerMinute=5.00, user=User{age=20, surName='Минеев', name='Иван'}, car=Car{carName='BMW', model='M8 F90', horsePower=617, isRented=true, distance=3.614, weight=2035.0, carType=PASSENGER_CAR}}, Order{id=2, coefficient=5, costPerMinute=5.00, user=User{age=19, surName='Семенов', name='Александр'}, car=Car{carName='Lexus', model='RX', horsePower=280, isRented=true, distance=65.123, weight=1540.0, carType=PASSENGER_CAR}}, Order{id=1, coefficient=5, costPerMinute=5.00, user=User{age=19, surName='Шматков', name='Артем'}, car=Car{carName='Nissan', model='Atleon', horsePower=150, isRented=true, distance=65.123, weight=1540.0, carType=TRUCK_CAR}}]}", listToString);
         Assertions.assertEquals("Шматков", orderList.get(2).getUser().getSurName());
     }
 

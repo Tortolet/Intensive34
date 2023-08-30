@@ -1,4 +1,4 @@
-package ru.aston.mineev_ia.task1.car_rent.classes;
+package ru.aston.mineev_ia.task1.car_rent.models;
 
 import ru.aston.mineev_ia.task1.car_rent.interfaces.Discount;
 
@@ -12,6 +12,7 @@ public abstract class Order implements Discount {
     private BigDecimal costPerMinute;
     private User user;
     private Car car;
+    public static Comparator<Order> surNameComparator = Comparator.comparing(o -> o.getUser().getSurName());
 
     protected Order(int id, BigDecimal coefficient, BigDecimal costPerMinute, User user, Car car) {
         this.id = id;
@@ -62,8 +63,6 @@ public abstract class Order implements Discount {
     public void setCar(Car car) {
         this.car = car;
     }
-
-    public static Comparator<Order> surNameComparator = Comparator.comparing(o -> o.getUser().getSurName());
 
     @Override
     public String toString() {
