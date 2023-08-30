@@ -17,7 +17,7 @@ public class MainTests {
      List<Order> orderList = new ArrayList<>();
 
     @BeforeEach
-     void start() throws Exception {
+     void start() {
         User user1 = new User(20, "Минеев", "Иван");
         User user2 = new User(19, "Шматков", "Артем");
         User user3 = new User(19, "Семенов", "Александр");
@@ -40,7 +40,7 @@ public class MainTests {
 
     @Test
     void testTypeCar() {
-        Assertions.assertThrows(Exception.class, () -> new Car("BMW", "M8 F90", 617, 3.614, 2700, CarType.PASSENGER_CAR));
+        Assertions.assertThrows(RuntimeException.class, () -> new Car("BMW", "M8 F90", 617, 3.614, 2700, CarType.PASSENGER_CAR));
     }
 
     @Test
@@ -60,7 +60,7 @@ public class MainTests {
     }
 
     @Test
-    void testWithoutDiscount() throws Exception {
+    void testWithoutDiscount() {
         Car car = new Car("BMW", "M8 F90", 617, 3.614, 1980, CarType.TRUCK_CAR);
         User user = new User(40, "Вергус", "Александр");
         orderList.add(new OrderTruckCar(4, BigDecimal.valueOf(0), BigDecimal.valueOf(9.00), user, car));
@@ -82,6 +82,11 @@ public class MainTests {
 
         Assertions.assertEquals(listToString, "OrderList{orderList=[Order{id=3, coefficient=5, costPerMinute=5.0, user=User{age=20, surName='Минеев', name='Иван'}, car=Car{carName='BMW', model='M8 F90', horsePower=617, isRented=true, distance=3.614, weight=2035.0, carType=PASSENGER_CAR}}, Order{id=2, coefficient=5, costPerMinute=5.0, user=User{age=19, surName='Семенов', name='Александр'}, car=Car{carName='Lexus', model='RX', horsePower=280, isRented=true, distance=65.123, weight=1540.0, carType=PASSENGER_CAR}}, Order{id=1, coefficient=5, costPerMinute=5.0, user=User{age=19, surName='Шматков', name='Артем'}, car=Car{carName='Nissan', model='Atleon', horsePower=150, isRented=true, distance=65.123, weight=1540.0, carType=TRUCK_CAR}}]}");
         Assertions.assertEquals(orderList.get(2).getUser().getSurName(), "Шматков");
+    }
+
+    @Test
+    void testInvalidCar() {
+        Assertions.assertThrows(RuntimeException.class, () -> new Car("BMW", "M8 F90", 7, -3.614, 1980, CarType.TRUCK_CAR));
     }
 
 }

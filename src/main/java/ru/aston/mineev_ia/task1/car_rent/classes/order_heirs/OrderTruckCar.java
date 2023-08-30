@@ -9,15 +9,15 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class OrderTruckCar extends Order {
-    public OrderTruckCar(int id, BigDecimal coefficient, BigDecimal costPerMinute, User user, Car car) throws Exception {
+    public OrderTruckCar(int id, BigDecimal coefficient, BigDecimal costPerMinute, User user, Car car) {
         super(id, coefficient, costPerMinute, user, car);
 
         if (car.getCarType().equals(CarType.PASSENGER_CAR)) {
-            throw new Exception("Машина не является грузовой");
+            throw new RuntimeException("Машина не является грузовой");
         }
 
         if (car.isRented()) {
-            throw new Exception("Машина уже арендована");
+            throw new RuntimeException("Машина уже арендована");
         }
 
         car.rent();

@@ -13,7 +13,7 @@ public class Car implements Rent {
     private double weight;
     private final CarType carType;
 
-    public Car(String carName, String model, int horsePower, double distance, double weight, CarType carType) throws Exception {
+    public Car(String carName, String model, int horsePower, double distance, double weight, CarType carType) {
         this.carName = carName;
         this.model = model;
         this.horsePower = horsePower;
@@ -23,7 +23,11 @@ public class Car implements Rent {
         this.isRented = false;
 
         if (weight > 2500 && carType.equals(CarType.PASSENGER_CAR)) {
-            throw new Exception("Легковой автомобиль не подходит по габаритам.");
+            throw new RuntimeException("Легковой автомобиль не подходит по габаритам.");
+        }
+
+        if (horsePower <= 0 || distance < 0 || weight <=0){
+            throw new RuntimeException("Неверные данные");
         }
     }
 
