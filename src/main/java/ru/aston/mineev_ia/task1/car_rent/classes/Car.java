@@ -26,7 +26,7 @@ public class Car implements Rent {
             throw new RuntimeException("Легковой автомобиль не подходит по габаритам.");
         }
 
-        if (horsePower <= 0 || distance < 0 || weight <=0){
+        if (horsePower <= 0 || distance < 0 || weight <= 0){
             throw new RuntimeException("Неверные данные");
         }
     }
