@@ -8,6 +8,9 @@ import ru.aston.mineev_ia.task1.car_rent.models.lists.OrderList;
 import ru.aston.mineev_ia.task1.car_rent.models.order_heirs.OrderPassengerCar;
 import ru.aston.mineev_ia.task1.car_rent.models.order_heirs.OrderTruckCar;
 import ru.aston.mineev_ia.task1.car_rent.types.CarType;
+import ru.aston.mineev_ia.task2.exceptions.CarAlreadyRented;
+import ru.aston.mineev_ia.task2.exceptions.InvalidCarType;
+import ru.aston.mineev_ia.task2.exceptions.InvalidValues;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -17,7 +20,7 @@ public class MainTests {
     private final List<Order> orderList = new ArrayList<>();
 
     @BeforeEach
-     void start() {
+     void start() throws InvalidValues {
         User user1 = new User(20, "Минеев", "Иван");
         User user2 = new User(19, "Шматков", "Артем");
         User user3 = new User(19, "Семенов", "Александр");
@@ -40,12 +43,17 @@ public class MainTests {
 
     @Test
     void testTypeCar() {
-        Assertions.assertThrows(RuntimeException.class, () -> new Car("BMW", "M8 F90", 617, 3.614, 2700, CarType.PASSENGER_CAR));
+        Assertions.assertThrows(InvalidCarType.class, () -> new Car("BMW", "M8 F90", 617, 3.614, 2700, CarType.PASSENGER_CAR));
     }
 
     @Test
     void testRentCar() {
         Assertions.assertTrue(orderList.get(0).getCar().isRented());
+    }
+
+    @Test
+    void testRentCarException() {
+        Assertions.assertThrows(CarAlreadyRented.class, () -> new OrderTruckCar(4, new BigDecimal(5), new BigDecimal("5.00"), orderList.get(0).getUser(), orderList.get(0).getCar()));
     }
 
     @Test
@@ -60,7 +68,7 @@ public class MainTests {
     }
 
     @Test
-    void testWithoutDiscount() {
+    void testWithoutDiscount() throws InvalidValues {
         Car car = new Car("BMW", "M8 F90", 617, 3.614, 1980, CarType.TRUCK_CAR);
         User user = new User(40, "Вергус", "Александр");
         orderList.add(new OrderTruckCar(4, new BigDecimal(0), new BigDecimal("9.00"), user, car));
@@ -86,7 +94,7 @@ public class MainTests {
 
     @Test
     void testInvalidCar() {
-        Assertions.assertThrows(RuntimeException.class, () -> new Car("BMW", "M8 F90", 7, -3.614, 1980, CarType.TRUCK_CAR));
+        Assertions.assertThrows(InvalidValues.class, () -> new Car("BMW", "M8 F90", 7, -3.614, 1980, CarType.TRUCK_CAR));
     }
 
 }

@@ -2,6 +2,8 @@ package ru.aston.mineev_ia.task1.car_rent.models;
 
 import ru.aston.mineev_ia.task1.car_rent.interfaces.Rent;
 import ru.aston.mineev_ia.task1.car_rent.types.CarType;
+import ru.aston.mineev_ia.task2.exceptions.InvalidCarType;
+import ru.aston.mineev_ia.task2.exceptions.InvalidValues;
 
 public class Car implements Rent {
 
@@ -13,7 +15,7 @@ public class Car implements Rent {
     private double weight;
     private final CarType carType;
 
-    public Car(String carName, String model, int horsePower, double distance, double weight, CarType carType) {
+    public Car(String carName, String model, int horsePower, double distance, double weight, CarType carType) throws InvalidValues {
         this.carName = carName;
         this.model = model;
         this.horsePower = horsePower;
@@ -26,11 +28,11 @@ public class Car implements Rent {
         boolean isInvalidValues = horsePower <= 0 || distance < 0 || weight <= 0;
 
         if (notPassCar) {
-            throw new RuntimeException("Легковой автомобиль не подходит по габаритам.");
+            throw new InvalidCarType("Легковой автомобиль не подходит по габаритам");
         }
 
         if (isInvalidValues){
-            throw new RuntimeException("Неверные данные");
+            throw new InvalidValues("Неверные данные");
         }
     }
 
