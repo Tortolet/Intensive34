@@ -2,7 +2,7 @@ package ru.aston.mineev_ia.task1.car_rent.models;
 
 import java.util.Objects;
 
-public class User {
+public class User implements Comparable<User> {
 
     private int age;
     private String surName;
@@ -38,6 +38,7 @@ public class User {
         this.name = name;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -58,5 +59,10 @@ public class User {
                 ", surName='" + surName + '\'' +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(User o) {
+        return surName.compareTo(o.getSurName());
     }
 }
