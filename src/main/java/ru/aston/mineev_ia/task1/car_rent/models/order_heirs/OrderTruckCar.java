@@ -4,6 +4,8 @@ import ru.aston.mineev_ia.task1.car_rent.models.Car;
 import ru.aston.mineev_ia.task1.car_rent.models.Order;
 import ru.aston.mineev_ia.task1.car_rent.models.User;
 import ru.aston.mineev_ia.task1.car_rent.types.CarType;
+import ru.aston.mineev_ia.task2.exceptions.CarAlreadyRented;
+import ru.aston.mineev_ia.task2.exceptions.InvalidCarType;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -13,11 +15,11 @@ public class OrderTruckCar extends Order {
         super(id, coefficient, costPerMinute, user, car);
 
         if (car.getCarType().equals(CarType.PASSENGER_CAR)) {
-            throw new RuntimeException("Машина не является грузовой");
+            throw new InvalidCarType("Машина не является грузовой");
         }
 
         if (car.isRented()) {
-            throw new RuntimeException("Машина уже арендована");
+            throw new CarAlreadyRented("Машина уже арендована");
         }
 
         car.rent();
