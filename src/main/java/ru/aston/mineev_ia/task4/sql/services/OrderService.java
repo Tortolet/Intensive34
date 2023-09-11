@@ -16,6 +16,8 @@ import java.util.List;
 
 public class OrderService implements OrderDAO<Order> {
 
+    private static final String SQL_PATH = System.getProperty("user.dir") + "\\src\\main\\resources\\sql\\";
+
     private final H2DatabaseService h2DatabaseService;
     private final UserService userService;
 
@@ -28,7 +30,7 @@ public class OrderService implements OrderDAO<Order> {
     public List<Order> findAll() {
         List<Order> orders = new ArrayList<>();
         try (Connection connection = h2DatabaseService.getConnection()) {
-            File query = new File(System.getProperty("user.dir") + "\\src\\main\\resources\\sql\\find_all_orders.sql");
+            File query = new File(SQL_PATH + "find_all_orders.sql");
             try (Statement statement = connection.createStatement()) {
                 ResultSet resultSet = statement.executeQuery(ExecuteSqlService.fromFile(query));
                 while (resultSet.next()) {
@@ -46,7 +48,7 @@ public class OrderService implements OrderDAO<Order> {
     @Override
     public Order findEntityById(int id) {
         try (Connection connection = h2DatabaseService.getConnection()) {
-            File query = new File(System.getProperty("user.dir") + "\\src\\main\\resources\\sql\\find_order_by_id.sql");
+            File query = new File(SQL_PATH + "find_order_by_id.sql");
             try (PreparedStatement preparedStatement = connection.prepareStatement(ExecuteSqlService.fromFile(query))) {
                 preparedStatement.setInt(1, id);
                 ResultSet resultSet = preparedStatement.executeQuery();
@@ -65,7 +67,7 @@ public class OrderService implements OrderDAO<Order> {
     @Override
     public boolean delete(int id) {
         try (Connection connection = h2DatabaseService.getConnection()) {
-            File queryDelete = new File(System.getProperty("user.dir") + "\\src\\main\\resources\\sql\\delete_order_by_id.sql");
+            File queryDelete = new File(SQL_PATH + "delete_order_by_id.sql");
             try (PreparedStatement statement = connection.prepareStatement(ExecuteSqlService.fromFile(queryDelete))) {
                 statement.setInt(1, id);
                 int res = statement.executeUpdate();
@@ -87,7 +89,7 @@ public class OrderService implements OrderDAO<Order> {
     @Override
     public boolean create(Order t) {
         try (Connection connection = h2DatabaseService.getConnection()) {
-            File queryCreate = new File(System.getProperty("user.dir") + "\\src\\main\\resources\\sql\\create_order.sql");
+            File queryCreate = new File(SQL_PATH + "create_order.sql");
             try (PreparedStatement statement = connection.prepareStatement(ExecuteSqlService.fromFile(queryCreate))) {
                 statement.setString(1, t.getItem());
                 statement.setInt(2, t.getUser().getId());
@@ -112,7 +114,7 @@ public class OrderService implements OrderDAO<Order> {
     @Override
     public Order update(Order t) {
         try (Connection connection = h2DatabaseService.getConnection()) {
-            File queryUpdate = new File(System.getProperty("user.dir") + "\\src\\main\\resources\\sql\\update_order.sql");
+            File queryUpdate = new File(SQL_PATH + "update_order.sql");
             try (PreparedStatement statement = connection.prepareStatement(ExecuteSqlService.fromFile(queryUpdate))) {
                 statement.setString(1, t.getItem());
                 statement.setInt(2, t.getUser().getId());

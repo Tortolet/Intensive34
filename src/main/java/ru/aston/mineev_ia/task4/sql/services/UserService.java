@@ -14,6 +14,8 @@ import java.util.List;
 
 public class UserService implements UserDAO<User> {
 
+    private static final String SQL_PATH = System.getProperty("user.dir") + "\\src\\main\\resources\\sql\\";
+
     private final H2DatabaseService h2DatabaseService;
 
     public UserService(H2DatabaseService h2DatabaseService) {
@@ -24,14 +26,14 @@ public class UserService implements UserDAO<User> {
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
         try (Connection connection = h2DatabaseService.getConnection()) {
-            File query = new File(System.getProperty("user.dir") + "\\src\\main\\resources\\sql\\find_all_users.sql");
+            File query = new File(SQL_PATH + "find_all_users.sql");
             try (Statement statement = connection.createStatement()) {
                 ResultSet resultSet = statement.executeQuery(ExecuteSqlService.fromFile(query));
                 while (resultSet.next()) {
                     users.add(new User(resultSet.getInt("id"),
-                            resultSet.getString("firstName"),
-                            resultSet.getString("secondName"),
-                            resultSet.getString("lastName"),
+                            resultSet.getString("first_name"),
+                            resultSet.getString("second_name"),
+                            resultSet.getString("last_name"),
                             resultSet.getString("phone"),
                             resultSet.getString("email")));
                 }
@@ -46,15 +48,15 @@ public class UserService implements UserDAO<User> {
     @Override
     public User findEntityById(int id) {
         try (Connection connection = h2DatabaseService.getConnection()) {
-            File query = new File(System.getProperty("user.dir") + "\\src\\main\\resources\\sql\\find_user_by_id.sql");
+            File query = new File(SQL_PATH + "find_user_by_id.sql");
             try (PreparedStatement preparedStatement = connection.prepareStatement(ExecuteSqlService.fromFile(query))) {
                 preparedStatement.setInt(1, id);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 if (resultSet.next()) {
                     return new User(resultSet.getInt("id"),
-                            resultSet.getString("firstName"),
-                            resultSet.getString("secondName"),
-                            resultSet.getString("lastName"),
+                            resultSet.getString("first_name"),
+                            resultSet.getString("second_name"),
+                            resultSet.getString("last_name"),
                             resultSet.getString("phone"),
                             resultSet.getString("email"));
                 } else throw new UserDoesntExist("Пользователя с ID - " + id + " не существует в базе данных");
@@ -69,7 +71,7 @@ public class UserService implements UserDAO<User> {
     @Override
     public boolean delete(int id){
         try (Connection connection = h2DatabaseService.getConnection()) {
-            File queryDelete = new File(System.getProperty("user.dir") + "\\src\\main\\resources\\sql\\delete_user_by_id.sql");
+            File queryDelete = new File(SQL_PATH + "delete_user_by_id.sql");
             try (PreparedStatement statement = connection.prepareStatement(ExecuteSqlService.fromFile(queryDelete))) {
                 statement.setInt(1, id);
                 int res = statement.executeUpdate();
@@ -91,7 +93,7 @@ public class UserService implements UserDAO<User> {
     @Override
     public boolean create(User t) {
         try (Connection connection = h2DatabaseService.getConnection()) {
-            File queryCreate = new File(System.getProperty("user.dir") + "\\src\\main\\resources\\sql\\create_user.sql");
+            File queryCreate = new File(SQL_PATH + "create_user.sql");
             try (PreparedStatement statement = connection.prepareStatement(ExecuteSqlService.fromFile(queryCreate))) {
                 statement.setString(1, t.getFirstName());
                 statement.setString(2, t.getSecondName());
@@ -119,7 +121,7 @@ public class UserService implements UserDAO<User> {
     @Override
     public User update(User t) {
         try (Connection connection = h2DatabaseService.getConnection()) {
-            File queryUpdate = new File(System.getProperty("user.dir") + "\\src\\main\\resources\\sql\\update_user.sql");
+            File queryUpdate = new File(SQL_PATH + "update_user.sql");
             try (PreparedStatement statement = connection.prepareStatement(ExecuteSqlService.fromFile(queryUpdate))) {
                 statement.setString(1, t.getFirstName());
                 statement.setString(2, t.getSecondName());
@@ -148,11 +150,11 @@ public class UserService implements UserDAO<User> {
     public List<String> innerJoinWithOrders() {
         List<String> join = new ArrayList<>();
         try(Connection connection = h2DatabaseService.getConnection()) {
-            File queryJoin = new File(System.getProperty("user.dir") + "\\src\\main\\resources\\sql\\inner_join.sql");
+            File queryJoin = new File(SQL_PATH + "inner_join.sql");
             try (Statement statement = connection.createStatement()) {
                 ResultSet resultSet = statement.executeQuery(ExecuteSqlService.fromFile(queryJoin));
                 while (resultSet.next()) {
-                    join.add("First Name: " + resultSet.getString("firstName") + ". Last Name: " + resultSet.getString("lastName") + ". Item: " + resultSet.getString("item"));
+                    join.add("First Name: " + resultSet.getString("first_name") + ". Last Name: " + resultSet.getString("last_name") + ". Item: " + resultSet.getString("item"));
                 }
             }
         }

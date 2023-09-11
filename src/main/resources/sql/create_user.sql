@@ -1,1 +1,1 @@
-INSERT INTO users (firstName, secondName, lastName, phone, email) values (?,?,?,?,?);
+INSERT INTO users (first_name, second_name, last_name, phone, email) values (?,?,?,?,?);
