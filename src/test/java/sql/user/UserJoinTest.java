@@ -2,8 +2,6 @@ package sql.user;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import resolvers.UserServiceParameterResolver;
 import ru.aston.mineev_ia.task4.sql.services.ExecuteSqlService;
 import ru.aston.mineev_ia.task4.sql.services.H2DatabaseService;
 import ru.aston.mineev_ia.task4.sql.services.UserService;
@@ -13,19 +11,14 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-@ExtendWith(UserServiceParameterResolver.class)
 public class UserJoinTest {
 
-    private final UserService userService;
-
-    public UserJoinTest(UserService userService) {
-        this.userService = userService;
-    }
+    private static final H2DatabaseService H2_DB_SERVICE = new H2DatabaseService();
+    private final UserService userService = new UserService(H2_DB_SERVICE);
 
     @BeforeAll
     static void init() {
-        H2DatabaseService databaseService = new H2DatabaseService();
-        try(Connection connection = databaseService.getConnection()) {
+        try(Connection connection = H2_DB_SERVICE.getConnection()) {
             File file = new File(System.getProperty("user.dir") + "\\src\\main\\resources\\sql\\add_new_tables.sql");
 
             // создание

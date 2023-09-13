@@ -3,9 +3,6 @@ package sql.order;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import resolvers.OrderServiceParameterResolver;
-import resolvers.UserServiceParameterResolver;
 import ru.aston.mineev_ia.task4.sql.models.Order;
 import ru.aston.mineev_ia.task4.sql.models.User;
 import ru.aston.mineev_ia.task4.sql.services.ExecuteSqlService;
@@ -18,21 +15,15 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-@ExtendWith({OrderServiceParameterResolver.class, UserServiceParameterResolver.class})
 public class OrderConflictTests {
 
-    private final OrderService orderService;
-    private final UserService userService;
-
-    public OrderConflictTests(OrderService orderService, UserService userService) {
-        this.orderService = orderService;
-        this.userService = userService;
-    }
+    private static final H2DatabaseService H2_DB_SERVICE = new H2DatabaseService();
+    private final UserService userService = new UserService(H2_DB_SERVICE);
+    private final OrderService orderService = new OrderService(H2_DB_SERVICE, userService);
 
     @BeforeAll
     static void init() {
-        H2DatabaseService databaseService = new H2DatabaseService();
-        try(Connection connection = databaseService.getConnection()) {
+        try(Connection connection = H2_DB_SERVICE.getConnection()) {
             File file = new File(System.getProperty("user.dir") + "\\src\\main\\resources\\sql\\add_new_tables.sql");
 
             // создание
