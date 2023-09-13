@@ -1,0 +1,1 @@
+SELECT users.first_name, users.last_name, o.item FROM users INNER JOIN "orders" o on o.user_id = users.id
