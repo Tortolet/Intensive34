@@ -1,11 +1,11 @@
 package sql.order;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import ru.aston.mineev_ia.task4.sql.models.Order;
 import ru.aston.mineev_ia.task4.sql.models.User;
 import ru.aston.mineev_ia.task4.sql.services.OrderService;
@@ -14,17 +14,13 @@ import ru.aston.mineev_ia.task4.sql.services.UserService;
 import java.util.ArrayList;
 import java.util.List;
 
+@ExtendWith(MockitoExtension.class)
 public class OrderMockTest {
     @Mock
     private OrderService mockOrder;
 
     @Mock
     private UserService mockUser;
-
-    @BeforeEach
-    void initEach() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     void testAllOrders() {
