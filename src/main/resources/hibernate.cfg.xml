@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+
+        <property name="connection.url">jdbc:mysql://localhost:3306/task9</property> <!-- BD Mane -->
+        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property> <!-- DB Driver -->
+        <property name="connection.username">root</property> <!-- DB User -->
+        <property name="connection.password"/> <!-- DB Password -->
+
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property> <!-- DB Dialect -->
+        <property name="hbm2ddl.auto">update</property> <!-- create / create-drop / update -->
+
+        <property name="show_sql">true</property> <!-- Show SQL in console -->
+        <property name="format_sql">true</property> <!-- Show SQL formatted -->
+
+<!--        Наследование в Hibernate-->
+
+<!--        <mapping class="ru.aston.mineev_ia.task9.hibernate.inheritance.super_class.models.CreditCard"/>-->
+<!--        <mapping class="ru.aston.mineev_ia.task9.hibernate.inheritance.super_class.models.BankAccount"/>-->
+<!--        <mapping class="ru.aston.mineev_ia.task9.hibernate.inheritance.super_class.models.BillingDetails"/>-->
+
+<!--        <mapping class="ru.aston.mineev_ia.task9.hibernate.inheritance.table_per_class.models.CreditCard"/>-->
+<!--        <mapping class="ru.aston.mineev_ia.task9.hibernate.inheritance.table_per_class.models.BankAccount"/>-->
+<!--        <mapping class="ru.aston.mineev_ia.task9.hibernate.inheritance.table_per_class.models.BillingDetails"/>-->
+
+<!--        <mapping class="ru.aston.mineev_ia.task9.hibernate.inheritance.single_table.models.CreditCard"/>-->
+<!--        <mapping class="ru.aston.mineev_ia.task9.hibernate.inheritance.single_table.models.BankAccount"/>-->
+<!--        <mapping class="ru.aston.mineev_ia.task9.hibernate.inheritance.single_table.models.BillingDetails"/>-->
+
+<!--        <mapping class="ru.aston.mineev_ia.task9.hibernate.inheritance.joined.models.CreditCard"/>-->
+<!--        <mapping class="ru.aston.mineev_ia.task9.hibernate.inheritance.joined.models.BankAccount"/>-->
+<!--        <mapping class="ru.aston.mineev_ia.task9.hibernate.inheritance.joined.models.BillingDetails"/>-->
+
+<!--        Конец наследования-->
+
+<!--        Связи Hibernate-->
+
+<!--        <mapping class="ru.aston.mineev_ia.task9.hibernate.relations.many_to_many.Employee"/>-->
+<!--        <mapping class="ru.aston.mineev_ia.task9.hibernate.relations.many_to_many.Position"/>-->
+
+<!--        <mapping class="ru.aston.mineev_ia.task9.hibernate.relations.many_to_one.Employee"/>-->
+<!--        <mapping class="ru.aston.mineev_ia.task9.hibernate.relations.many_to_one.Position"/>-->
+
+<!--        <mapping class="ru.aston.mineev_ia.task9.hibernate.relations.one_to_many.Employee"/>-->
+<!--        <mapping class="ru.aston.mineev_ia.task9.hibernate.relations.one_to_many.Position"/>-->
+
+        <mapping class="ru.aston.mineev_ia.task9.hibernate.relations.one_to_one.Employee"/>
+        <mapping class="ru.aston.mineev_ia.task9.hibernate.relations.one_to_one.Position"/>
+
+    </session-factory>
+</hibernate-configuration>
